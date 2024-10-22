@@ -1,0 +1,63 @@
+- name: Local baseline
+  hosts: all
+  gather_facts: false
+  tags:
+    - local
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: "/usr/bin/env python"
+  tasks:
+    - import_tasks: tasks/baseline.yml
+
+    - include_role:
+        name: baseline
+      tags:
+        - include
+
+- name: SSH baseline
+  hosts: all
+  gather_facts: false
+  tags:
+    - ssh
+  vars:
+    ansible_connection: ssh
+    ansible_ssh_pipelining: false
+  tasks:
+    - import_tasks: tasks/baseline.yml
+
+    - include_role:
+        name: baseline
+      tags:
+        - include
+
+- name: SSH+pipelining baseline
+  hosts: all
+  gather_facts: false
+  tags:
+    - ssh
+    - pipelining
+  vars:
+    ansible_connection: ssh
+    ansible_ssh_pipelining: True
+  tasks:
+    - import_tasks: tasks/baseline.yml
+
+    - include_role:
+        name: baseline
+      tags:
+        - include
+
+- name: Paramiko baseline
+  hosts: all
+  gather_facts: false
+  tags:
+    - paramiko
+  vars:
+    ansible_connection: paramiko
+  tasks:
+    - import_tasks: tasks/baseline.yml
+
+    - include_role:
+        name: baseline
+      tags:
+        - include
